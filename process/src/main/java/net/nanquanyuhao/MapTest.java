@@ -19,6 +19,20 @@ public class MapTest {
         // 结果：abc  123
         s1.forEach(System.out::println);
 
+        // 将字符串全部大写输出
+        list.stream().map(String::toUpperCase).forEach(System.out::println);
+        // 将一个 Stream 的每个元素映射成另一个元素并生成一个新的 Stream，可以将一种元素类型转换成另一种元素类型
+        String[] inputs = {"Bob, 15", "Alice, 20", "Time, 25", "Lily, 30"};
+        Stream<String> names = Arrays.stream(inputs);
+        Stream<Student> students = names.map(s -> {
+            int n = s.indexOf(',');
+            String name = s.substring(0, n);
+            int age = Integer.valueOf(s.substring(n + 2));
+            return new Student(name, age);
+        });
+        students.forEach(System.out::println);
+
+
         // flatMap：接收一个函数作为参数，将流中的每个值都换成另一个流，然后把所有流连接成一个流（可能存在 1-N）
         Stream<String> s3 = list.stream().flatMap(s -> {
             // 将每个元素转换成一个 stream

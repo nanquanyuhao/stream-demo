@@ -1,5 +1,6 @@
 package net.nanquanyuhao;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
@@ -24,9 +25,11 @@ public class FilterTest {
 
         newStream.forEach(System.out::println);
 
-        Stream<Long> natural = Stream.generate(new NaturalSupplier());
+        Stream<BigInteger> natural = Stream.generate(new NaturalSupplier());
         // 过滤条件为 n 是否可以被 2 整除，留下奇数 20 个
-        Stream<Long> odd = natural.filter(n -> n % 2 == 1);
+        Stream<BigInteger> odd = natural.filter(
+                // 取余有专有公式 mod
+                n -> n.mod(BigInteger.valueOf(2)).intValue() == 1);
         odd.limit(20).forEach(System.out::println);
 
 
