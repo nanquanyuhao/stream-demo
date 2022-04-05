@@ -1,5 +1,6 @@
 package net.nanquanyuhao;
 
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 /**
@@ -22,5 +23,17 @@ public class FilterTest {
                 .limit(2);
 
         newStream.forEach(System.out::println);
+
+        Stream<Long> natural = Stream.generate(new NaturalSupplier());
+        // 过滤条件为 n 是否可以被 2 整除，留下奇数 20 个
+        Stream<Long> odd = natural.filter(n -> n % 2 == 1);
+        odd.limit(20).forEach(System.out::println);
+
+
+        // 字符串处理，排除掉无实际内容的字符串，并输出调整过滤后的结果
+        String[] array = {"Java", " Python ", " ", null, "\n\n", " Ruby "};
+        Stream<String> normalized = Arrays.stream(array).filter(s -> s != null && !s.trim().isEmpty())
+                .map(s -> s.trim());
+        normalized.forEach(System.out::println);
     }
 }

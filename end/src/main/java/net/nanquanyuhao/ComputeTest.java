@@ -1,8 +1,8 @@
 package net.nanquanyuhao;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 规约操作
@@ -11,11 +11,8 @@ public class ComputeTest {
 
     public static void main(String[] args) {
 
-        // 经过测试，当元素个数小于 24 时，并行时线程数等于元素个数，当大于等于 24 时，并行时线程数为 16
-        List<Long> list = new ArrayList<>();
-        for (int i = 0; i < 24; i++) {
-            list.add(Long.valueOf(i + 1));
-        }
+        // 获取前 24 个自然数，即 1~24
+        List<Long> list = Stream.generate(new NaturalSupplier()).limit(24).collect(Collectors.toList());
 
         // 第一次执行时，accumulator 函数的第一个参数为流中的第一个元素，第二个参数为流中元素的第二个元素；
         // 第二次执行时，第一个参数为第一次函数执行的结果，第二个参数为流中的第三个元素；依次类推
