@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 /**
  * 使用 stream() 及 parallelStream() 方法创建
  */
-public class StreamTest {
+public class ListTest {
 
     public static void main(String[] args) {
 

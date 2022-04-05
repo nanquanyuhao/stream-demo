@@ -1,5 +1,6 @@
 package net.nanquanyuhao;
 
+import java.math.BigInteger;
 import java.util.stream.Stream;
 
 /**
@@ -17,8 +18,12 @@ public class StaticTest {
         // 0 2 4 6 8 10
         stream2.forEach(System.out::println);
 
-        // 取两个值，每个都是随机数
+        // 取两个值，每个都是随机数，如果不限制个数的话可以表述无限序列
         Stream<Double> stream3 = Stream.generate(Math::random).limit(2);
         stream3.forEach(System.out::println);
+
+        // 不加限制个数打印自然数会陷入死循环
+        Stream<BigInteger> s = Stream.generate(new NaturalSupplier()).limit(100);
+        s.forEach(System.out::println);
     }
 }
