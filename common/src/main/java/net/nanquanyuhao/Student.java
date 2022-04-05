@@ -7,10 +7,17 @@ public class Student {
 
     private String name;
     private Integer age;
+    private Integer type;
 
     public Student(String name, Integer age) {
         this.name = name;
         this.age = age;
+    }
+
+    public Student(String name, Integer age, Integer type) {
+        this.name = name;
+        this.age = age;
+        this.type = type;
     }
 
     @Override
@@ -18,6 +25,7 @@ public class Student {
         return "Student{" +
                 "name='" + name + '\'' +
                 ", age=" + age +
+                ", type=" + type +
                 '}';
     }
 
@@ -35,5 +43,13 @@ public class Student {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }
