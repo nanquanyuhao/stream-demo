@@ -12,6 +12,7 @@ public class CollectorTest {
         List<Student> list = Arrays.asList(s1, s2, s3);
         System.out.println(list);
 
+        // 用 collect() 进行转化的话仅可转化为 List/Set 类型
         // collect()：接收一个 Collector 实例，将流中元素收集成另外一个数据结构，结果：[10, 20, 10]
         List<Integer> ageList = list.stream().map(Student::getAge).collect(Collectors.toList());
         System.out.println(ageList);
