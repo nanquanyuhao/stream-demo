@@ -11,6 +11,7 @@
     <modules>
         <module>creation</module>
         <module>process</module>
+        <module>end</module>
     </modules>
 
     <build>
