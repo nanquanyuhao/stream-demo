@@ -12,6 +12,7 @@ public class CollectorTest {
         List<Student> list = Arrays.asList(s1, s2, s3);
         System.out.println(list);
 
+        // 用 collect() 进行转化的话仅可转化为 List/Set 类型
         // collect()：接收一个 Collector 实例，将流中元素收集成另外一个数据结构，结果：[10, 20, 10]
         List<Integer> ageList = list.stream().map(Student::getAge).collect(Collectors.toList());
         System.out.println(ageList);
@@ -68,5 +69,11 @@ public class CollectorTest {
         // 10. 规约，结果：40
         Integer allAge = list.stream().map(Student::getAge).collect(Collectors.reducing(Integer::sum)).get();
         System.out.println(allAge);
+
+        // 11. 作用为，过滤掉同岁的人。实际是后来发现冲突的对象不再纳入而已：
+        // 将 list 存为 TreeSet，并使用 Comparator.comparing 指定比较的元素为某个属性，将不重复的 TreeSet 集合转回 List
+        List<Student> studentList = list.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(
+                () -> new TreeSet<>(Comparator.comparing(o -> o.getAge()))), ArrayList::new));
+        System.out.println(studentList);
     }
 }
