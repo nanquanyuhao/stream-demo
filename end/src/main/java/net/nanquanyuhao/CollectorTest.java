@@ -69,5 +69,10 @@ public class CollectorTest {
         // 10. 规约，结果：40
         Integer allAge = list.stream().map(Student::getAge).collect(Collectors.reducing(Integer::sum)).get();
         System.out.println(allAge);
+
+        // 11. 作用为，过滤掉同岁的人。实际是后来发现冲突的对象不再纳入而已
+        List<Student> studentList = list.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(
+                () -> new TreeSet<>(Comparator.comparing(o -> o.getAge()))), ArrayList::new));
+        System.out.println(studentList);
     }
 }
