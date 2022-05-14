@@ -1,4 +1,4 @@
-package net.nanquanyuhao.test3;
+package net.nanquanyuhao.labmda.test3;
 
 @FunctionalInterface
 public interface Some {

@@ -1,4 +1,4 @@
-package net.nanquanyuhao.test3;
+package net.nanquanyuhao.labmda.test3;
 
 /**
  * 有无参数有返回值测试
