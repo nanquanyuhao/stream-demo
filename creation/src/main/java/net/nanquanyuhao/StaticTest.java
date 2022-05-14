@@ -10,11 +10,11 @@ public class StaticTest {
 
     public static void main(String[] args) {
 
-        Stream<Integer> stream = Stream.of( 1, 2, 3, 4, 5, 6);
+        Stream<Integer> stream = Stream.of(1, 2, 3, 4, 5, 6);
         stream.forEach(System.out::println);
 
         // 取六个值，从零开始递增的等差数列
-        Stream<Integer> stream2 = Stream.iterate(0, (x) -> x + 2).limit(6);
+        Stream<Integer> stream2 = Stream.iterate(0, x -> x + 2).limit(6);
         // 0 2 4 6 8 10
         stream2.forEach(System.out::println);
 

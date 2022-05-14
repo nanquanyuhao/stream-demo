@@ -13,11 +13,11 @@ public class ListTest {
 
         List<String> list = new ArrayList<>();
 
-        //获取一个顺序流
+        // 获取一个顺序流
         Stream<String> stream = list.stream();
         System.out.println(stream);
 
-        //获取一个并行流
+        // 获取一个并行流
         Stream<String> parallelStream = list.parallelStream();
         System.out.println(parallelStream);
     }
