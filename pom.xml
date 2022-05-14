@@ -13,6 +13,7 @@
         <module>process</module>
         <module>end</module>
         <module>common</module>
+        <module>labmda</module>
     </modules>
 
     <build>
