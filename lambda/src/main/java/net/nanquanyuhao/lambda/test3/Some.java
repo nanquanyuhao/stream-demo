@@ -1,4 +1,4 @@
-package net.nanquanyuhao.labmda.test3;
+package net.nanquanyuhao.lambda.test3;
 
 @FunctionalInterface
 public interface Some {

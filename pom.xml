@@ -13,7 +13,7 @@
         <module>process</module>
         <module>end</module>
         <module>common</module>
-        <module>labmda</module>
+        <module>lambda</module>
     </modules>
 
     <build>
