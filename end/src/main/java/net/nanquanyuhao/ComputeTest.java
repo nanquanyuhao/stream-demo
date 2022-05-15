@@ -18,12 +18,15 @@ public class ComputeTest {
         // 第一次执行时，accumulator 函数的第一个参数为流中的第一个元素，第二个参数为流中元素的第二个元素；
         // 第二次执行时，第一个参数为第一次函数执行的结果，第二个参数为流中的第三个元素；依次类推
         // 即此方法的最终结果是进行全部元素的加和计算
-        BigInteger v = list.stream().reduce((x1, x2) -> x1.add(x2)).get();
+        BigInteger v = list.stream()
+                .reduce((x1, x2) -> x1.add(x2))
+                .get();
         System.out.println(v);
 
         // 流程跟上面一样，只是第一次执行时，accumulator 函数的第一个参数为 identity
         // 第二个参数为流中的第一个元素，最终结果：310
-        BigInteger v1 = list.stream().reduce(BigInteger.valueOf(10), (x1, x2) -> x1.add(x2));
+        BigInteger v1 = list.stream()
+                .reduce(BigInteger.valueOf(10), (x1, x2) -> x1.add(x2));
         System.out.println(v1);
 
         // 在串行流(stream)中，该方法跟第二个方法一样，即第三个参数 combiner 不会起作用

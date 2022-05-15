@@ -15,6 +15,7 @@ public class ArraysTest {
         test01();
         test02();
         test03();
+        test04();
     }
 
     public static void test01() {
@@ -53,5 +54,15 @@ public class ArraysTest {
         System.out.println(" ===== " + new Random().ints(5).sum());
 
         System.out.println(new Random().ints(5).peek(System.out::println).sum());
+    }
+
+    public static void test04() {
+
+        String words = "Beijing is the capital of China";
+        Object[] array = Stream.of(words.split(" "))
+                .toArray();
+        for (Object obj : array) {
+            System.out.println(obj);
+        }
     }
 }

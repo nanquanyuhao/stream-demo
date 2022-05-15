@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 public class CollectorTest {
 
     public static void main(String[] args) {
+
         Student s1 = new Student("aa", 10, 1);
         Student s2 = new Student("bb", 20, 2);
         Student s3 = new Student("cc", 10, 3);
@@ -14,11 +15,15 @@ public class CollectorTest {
 
         // 用 collect() 进行转化的话仅可转化为 List/Set 类型
         // collect()：接收一个 Collector 实例，将流中元素收集成另外一个数据结构，结果：[10, 20, 10]
-        List<Integer> ageList = list.stream().map(Student::getAge).collect(Collectors.toList());
+        List<Integer> ageList = list.stream()
+                .map(Student::getAge)
+                .collect(Collectors.toList());
         System.out.println(ageList);
 
         //转成 set，结果：[20, 10]
-        Set<Integer> ageSet = list.stream().map(Student::getAge).collect(Collectors.toSet());
+        Set<Integer> ageSet = list.stream()
+                .map(Student::getAge)
+                .collect(Collectors.toSet());
         System.out.println(ageSet);
 
         // 转成 map，注: key 不能相同，否则报错，结果：{cc=10, bb=20, aa=10}
