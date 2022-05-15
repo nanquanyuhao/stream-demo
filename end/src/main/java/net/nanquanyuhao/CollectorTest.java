@@ -1,5 +1,7 @@
 package net.nanquanyuhao;
 
+import org.apache.commons.collections.MapUtils;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -20,7 +22,7 @@ public class CollectorTest {
                 .collect(Collectors.toList());
         System.out.println(ageList);
 
-        //转成 set，结果：[20, 10]
+        // 转成 set，结果：[20, 10]，排重
         Set<Integer> ageSet = list.stream()
                 .map(Student::getAge)
                 .collect(Collectors.toSet());
@@ -49,17 +51,29 @@ public class CollectorTest {
         System.out.println(sumAge);
 
         // 4. 平均年龄，结果：13.333333333333334
-        Double averageAge = list.stream().collect(Collectors.averagingDouble(Student::getAge));
+        Double averageAge = list.stream()
+                .collect(Collectors.averagingDouble(Student::getAge));
         System.out.println(averageAge);
 
         // 5. 带上以上所有方法
-        DoubleSummaryStatistics statistics = list.stream().collect(Collectors.summarizingDouble(Student::getAge));
+        DoubleSummaryStatistics statistics = list.stream()
+                .collect(Collectors.summarizingDouble(Student::getAge));
         System.out.println("count:" + statistics.getCount() + ",max:" + statistics.getMax() +
                 ",sum:" + statistics.getSum() + ",average:" + statistics.getAverage());
 
         // 6. 分组
-        Map<Integer, List<Student>> ageMap = list.stream().collect(Collectors.groupingBy(Student::getAge));
-        System.out.println(ageMap);
+        Map<Integer, List<Student>> ageMap = list.stream()
+                .collect(Collectors.groupingBy(Student::getAge));
+        // 使用工具类显示 map 中的 key-value
+        MapUtils.verbosePrint(System.out, "年龄", ageMap);
+        // 获取 key 为 10 的 value
+        System.out.println(ageMap.get(10));
+
+        // 统计各年龄的人数
+        Map<Integer, Long> ageCount = list.stream()
+                .collect(Collectors.groupingBy(Student::getAge, Collectors.counting()));
+        System.out.println(ageCount);
+        System.out.println(ageCount.get(10));
 
         // 7. 多重分组，先根据类型分再根据年龄分
         Map<Integer, Map<Integer, List<Student>>> typeAgeMap =
@@ -67,9 +81,13 @@ public class CollectorTest {
         System.out.println(typeAgeMap);
 
         // 分区
-        // 9. 分成两部分，一部分大于 10 岁，一部分小于等于 10岁
-        Map<Boolean, List<Student>> partMap = list.stream().collect(Collectors.partitioningBy(v -> v.getAge() > 10));
+        // 9. 只能分成两部分，一部分大于 10 岁，一部分小于等于 10岁
+        Map<Boolean, List<Student>> partMap = list.stream()
+                .collect(Collectors.partitioningBy(v -> v.getAge() > 10));
         System.out.println(partMap);
+        MapUtils.verbosePrint(System.out, "10 岁标准年龄", ageMap);
+        // 获取所有年龄大于 10 岁的学生
+        System.out.println(partMap.get(true));
 
         // 10. 规约，结果：40
         Integer allAge = list.stream().map(Student::getAge).collect(Collectors.reducing(Integer::sum)).get();
@@ -77,8 +95,10 @@ public class CollectorTest {
 
         // 11. 作用为，过滤掉同岁的人。实际是后来发现冲突的对象不再纳入而已：
         // 将 list 存为 TreeSet，并使用 Comparator.comparing 指定比较的元素为某个属性，将不重复的 TreeSet 集合转回 List
-        List<Student> studentList = list.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(
-                () -> new TreeSet<>(Comparator.comparing(o -> o.getAge()))), ArrayList::new));
+        List<Student> studentList = list.stream()
+                .collect(Collectors.collectingAndThen(
+                        Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(o -> o.getAge()))),
+                        ArrayList::new));
         System.out.println(studentList);
     }
 }
