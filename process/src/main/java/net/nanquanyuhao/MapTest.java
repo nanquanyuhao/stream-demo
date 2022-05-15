@@ -2,6 +2,7 @@ package net.nanquanyuhao;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -10,6 +11,16 @@ import java.util.stream.Stream;
 public class MapTest {
 
     public static void main(String[] args) {
+
+        test01();
+        test02();
+        test03();
+        test04();
+        test05();
+        test06();
+    }
+
+    public static void test01() {
 
         List<String> list = Arrays.asList("a,b,c", "1,2,3");
 
@@ -32,7 +43,6 @@ public class MapTest {
         });
         students.forEach(System.out::println);
 
-
         // flatMap：接收一个函数作为参数，将流中的每个值都换成另一个流，然后把所有流连接成一个流（可能存在 1-N）
         Stream<String> s3 = list.stream().flatMap(s -> {
             // 将每个元素转换成一个 stream
@@ -43,5 +53,52 @@ public class MapTest {
         });
         // 结果：a b c 1 2 3
         s3.forEach(System.out::println);
+    }
+
+    /**
+     * 在所有操作均为无状态操作时
+     * <p>
+     * 流中的元素对于操作的执行并非是将流中的所有元素按照顺序先执行完一个操作，再让所有元素执行第二个操作
+     * 是逐个拿出元素，将所有操作执行完成后，再拿出一个元素将所有操作再执行完
+     */
+    public static void test02() {
+
+        String words = "Beijing welcome you I love China";
+        Stream.of(words.split(" ")) // 当前流中的元素为各个单词
+                .peek(System.out::print)
+                .map(word -> word.length()) // 当前流中的元素为各个单词的长度
+                // peek 操作是中间操作，forEach 是终止操作，参数都是消费者方法（只进不出）
+                .forEach(System.out::println);
+    }
+
+    public static void test03() {
+
+        IntStream.range(1, 10)
+                .mapToObj(i -> "No." + i)
+                .forEach(System.out::println);
+    }
+
+    public static void test04() {
+
+        String[] nums = {"111", "222", "333"};
+        Arrays.stream(nums) // "111", "222", "333"
+                .mapToInt(Integer::valueOf) // 111, 222, 333
+                .forEach(System.out::println);
+    }
+
+    public static void test05() {
+
+        String words = "Beijing welcome you I love China";
+        Stream.of(words.split(" ")) // 当前流中的元素为各个单词
+                .flatMap(word -> word.chars().boxed()) // flatMap 中的参数为 Function，且要求返回类型为 Stream
+                .forEach(ch -> System.out.println((char) ch.intValue()));
+    }
+
+    public static void test06() {
+
+        String words = "Beijing welcome you I love China";
+        Stream.of(words.split(" ")) // 当前流中的元素为各个单词
+                .flatMap(word -> Stream.of(word.split(""))) // 最终形成的流中的元素为各个单词的字母
+                .forEach(System.out::println);
     }
 }
