@@ -52,3 +52,17 @@ Content-Type: application/json
   "name": "修改一2222下",
   "age": 23
 }
+
+### 有状态获取单个存在的对象
+GET http://localhost:8080/student/findstat/6284d7e52cd83228912aad5b
+### 有状态获取单个不存在的对象
+GET http://localhost:8080/student/findstat/6284d7e52cd83228912aad5
+
+### 年龄范围进行查询
+GET http://localhost:8080/student/age/22/29
+### 年龄范围进行 SSE 查询
+GET http://localhost:8080/student/sse/age/22/29
+### 年龄范围进行查询
+GET http://localhost:8080/student/query/age/23/28
+### 年龄范围进行 SSE 查询
+GET http://localhost:8080/student/sse/query/age/23/28

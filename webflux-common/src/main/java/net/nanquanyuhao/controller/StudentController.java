@@ -2,6 +2,7 @@ package net.nanquanyuhao.controller;
 
 import net.nanquanyuhao.bean.Student;
 import net.nanquanyuhao.repository.StudentRepository;
+import net.nanquanyuhao.util.ValidatorUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -9,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import javax.validation.Valid;
 
 /**
  * 控制器类
@@ -47,7 +50,9 @@ public class StudentController {
      * @return
      */
     @PostMapping("/save")
-    public Mono<Student> saveStudent(@RequestBody Student student) {
+    public Mono<Student> saveStudent(@Valid @RequestBody Student student) {
+        // 验证姓名的合法性
+        ValidatorUtil.validateName(student.getName());
         return repository.save(student);
     }
 
@@ -69,7 +74,9 @@ public class StudentController {
      * @return
      */
     @PutMapping("/update")
-    public Mono<Student> updateStudent(@RequestBody Student student) {
+    public Mono<Student> updateStudent(@Valid @RequestBody Student student) {
+        // 验证姓名的合法性
+        ValidatorUtil.validateName(student.getName());
         return repository.save(student);
     }
 
@@ -119,8 +126,10 @@ public class StudentController {
      * @return
      */
     @PutMapping("/updatestat/{id}")
-    public Mono<ResponseEntity<Student>> updateStudent(@PathVariable("id") String id, @RequestBody Student student) {
-
+    public Mono<ResponseEntity<Student>> updateStudent(@PathVariable("id") String id,
+                                                       @Valid @RequestBody Student student) {
+        // 验证姓名的合法性
+        ValidatorUtil.validateName(student.getName());
         return repository.findById(id)
                 // 其参数类型为 Function，即一个输入一个输出，输入为：Student，输出为：Mono<Student>
                 .flatMap(stu -> {
@@ -132,5 +141,38 @@ public class StudentController {
                 // 中的元素类型由 Student 类型映射为 ResponseEntity<Student> 类型，所以需要调用 map() 方法进行映射
                 .map(stu -> new ResponseEntity<Student>(stu, HttpStatus.OK))
                 .defaultIfEmpty(new ResponseEntity<Student>(HttpStatus.NOT_FOUND));
+    }
+
+    /**
+     * 有状态数据获取：若指定 id 存在，则返回查询到的对象及状态200，否则返回404
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/findstat/{id}")
+    public Mono<ResponseEntity<Student>> findByIdStat(@PathVariable("id") String id) {
+        return repository.findById(id)
+                .map(stu -> new ResponseEntity<Student>(stu, HttpStatus.OK))
+                .defaultIfEmpty(new ResponseEntity<Student>(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("/age/{below}/{top}")
+    public Flux<Student> findByAge(@PathVariable("below") int below, @PathVariable("top") int top) {
+        return repository.findByAgeBetween(below, top);
+    }
+
+    @GetMapping(value = "/sse/age/{below}/{top}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<Student> findByAgeSSE(@PathVariable("below") int below, @PathVariable("top") int top) {
+        return repository.findByAgeBetween(below, top);
+    }
+
+    @GetMapping("/query/age/{below}/{top}")
+    public Flux<Student> queryByAge(@PathVariable("below") int below, @PathVariable("top") int top) {
+        return repository.queryByAge(below, top);
+    }
+
+    @GetMapping(value = "/sse/query/age/{below}/{top}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<Student> queryByAgeSSE(@PathVariable("below") int below, @PathVariable("top") int top) {
+        return repository.queryByAge(below, top);
     }
 }
