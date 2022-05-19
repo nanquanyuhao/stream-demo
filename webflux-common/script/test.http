@@ -1,0 +1,54 @@
+### 获取全部对象
+GET http://localhost:8080/student/all
+
+### SSE 方式获取全部对象
+GET http://localhost:8080/student/sse/all
+
+### 添加对象
+POST http://localhost:8080/student/save
+Content-Type: application/json
+
+{
+  "name": "王五",
+  "age": 23
+}
+
+### 根据 ID 删除数据
+DELETE http://localhost:8080/student/delcomm/6284d7c72cd83228912aad5a
+
+### 更新数据
+PUT http://localhost:8080/student/update
+Content-Type: application/json
+
+{
+  "id": "6284d7e52cd83228912aad5b",
+  "name": "修改一下",
+  "age": 23
+}
+
+### 获取单个存在的对象
+GET http://localhost:8080/student/find/6284d7e52cd83228912aad5b
+### 获取单个不存在的对象
+GET http://localhost:8080/student/find/6284d7e52cd83228912aad5
+
+### 根据 ID 删除数据存在数据，有状态删除
+DELETE http://localhost:8080/student/delstat/6284d7f32cd83228912aad5c
+### 根据 ID 删除数据不存在数据，有状态删除
+DELETE http://localhost:8080/student/delstat/6284d7f32cd83228912aad5c
+
+### 有状态更新单个存在的对象
+PUT http://localhost:8080/student/updatestat/6284d92f7221121462748dad
+Content-Type: application/json
+
+{
+  "name": "修改一2222",
+  "age": 30
+}
+### 有状态更新不单个存在的对象
+PUT http://localhost:8080/student/updatestat/6284d92f7221121462748da
+Content-Type: application/json
+
+{
+  "name": "修改一2222下",
+  "age": 23
+}
