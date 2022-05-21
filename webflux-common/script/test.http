@@ -10,7 +10,7 @@ Content-Type: application/json
 
 {
   "name": "王五",
-  "age": 23
+  "age": 231
 }
 
 ### 根据 ID 删除数据

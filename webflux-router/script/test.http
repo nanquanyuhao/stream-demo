@@ -2,7 +2,7 @@
 GET http://localhost:8080/student/all
 
 ### 添加对象
-POST http://localhost:8080/student/save
+POST http://172.16.3.10:8080/student/save
 Content-Type: application/json
 
 {
@@ -14,11 +14,11 @@ Content-Type: application/json
 DELETE http://localhost:8080/student/del/62885166da7f947db55eba2b
 
 ### 更新数据
-PUT http://localhost:8080/student/update/6284d92e7221121462748dac
+PUT http://172.16.3.10:8080/student/update/6284d92e7221121462748dac
 Content-Type: application/json
 
 {
-  "name": "修改一下",
+  "name": "admin",
   "age": 23
 }
 

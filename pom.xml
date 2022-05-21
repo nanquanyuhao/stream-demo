@@ -17,6 +17,9 @@
         <module>reactive-stream</module>
         <module>webflux-common</module>
         <module>webflux-router</module>
+        <module>webflux-common-client</module>
+        <module>webflux-common-client4router</module>
+        <module>webflux-router-client</module>
     </modules>
 
     <build>

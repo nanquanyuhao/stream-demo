@@ -30,8 +30,9 @@ public class StudentExceptionHandler implements WebExceptionHandler {
         ServerHttpResponse response = exchange.getResponse();
         // 设置响应码
         response.setStatusCode(HttpStatus.BAD_REQUEST);
-        // 指定响应类型为普通文本
+        // 指定响应类型为普通文本 MediaType.TEXT_PLAIN 时会出现乱码，注意编码问题问题
         response.getHeaders().setContentType(MediaType.TEXT_PLAIN);
+        response.getHeaders().set("Content-Type", "text/plain;charset=UTF-8");
         // 获取到异常信息
         String message = formatExceptionMessage(ex);
         DataBuffer dataBuffer = response.bufferFactory().wrap(message.getBytes());

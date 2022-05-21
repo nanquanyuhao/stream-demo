@@ -1,0 +1,29 @@
+### 获取全部对象
+GET http://localhost:8081/list
+
+### 添加对象
+POST http://localhost:8081/add
+Content-Type: application/json
+
+{
+  "name": "李dada",
+  "age": 23
+}
+
+### 根据 ID 删除数据
+DELETE http://localhost:8081/remove/6288a1210633cd75a6f2cb42
+
+### 更新数据
+PUT http://localhost:8081/modify/62889d31f0ee42464c20c35e
+Content-Type: application/json
+
+{
+  "name": "修改wewwe",
+  "age": 33
+}
+
+### 获取单个存在的对象
+GET http://localhost:8081/get/62888b88aa62f07b1c3218ed
+
+### 年龄范围进行查询
+GET http://localhost:8081/range/22/29
