@@ -16,6 +16,7 @@
         <module>lambda</module>
         <module>reactive-stream</module>
         <module>webflux-common</module>
+        <module>webflux-router</module>
     </modules>
 
     <build>
