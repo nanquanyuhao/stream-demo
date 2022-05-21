@@ -2,6 +2,7 @@ package net.nanquanyuhao.handler;
 
 import net.nanquanyuhao.bean.Student;
 import net.nanquanyuhao.repository.StudentRepository;
+import net.nanquanyuhao.util.ValidatorUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -42,6 +43,12 @@ public class StudentHandler {
         // 从请求中获取到要添加的数据
         Mono<Student> studentMono = request.bodyToMono(Student.class);
 
+        studentMono = studentMono.map(stu -> {
+            // 验证Student对象
+            ValidatorUtil.validateStudent(stu);
+            return stu;
+        });
+
         return ServerResponse
                 .ok()   // 响应码200
                 .contentType(MediaType.APPLICATION_JSON)
@@ -77,6 +84,8 @@ public class StudentHandler {
 
         // 将id封装到了 Mono 的元素中
         Mono<Student> studentMonoId = studentMono.map(stu -> {
+            // 验证Student对象
+            ValidatorUtil.validateStudent(stu);
             stu.setId(id);
             return stu;
         });
