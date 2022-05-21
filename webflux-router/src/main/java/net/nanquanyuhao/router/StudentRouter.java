@@ -3,6 +3,7 @@ package net.nanquanyuhao.router;
 import net.nanquanyuhao.handler.StudentHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
@@ -26,6 +27,17 @@ public class StudentRouter {
         return RouterFunctions
                 // 相当于 @RequestMapping("/student")
                 .nest(RequestPredicates.path("/student"),
-                        RouterFunctions.route(RequestPredicates.GET("/all"), handler::findAllHandler));
+                        RouterFunctions.route(RequestPredicates.GET("/all"), handler::findAllHandler)
+                                .andRoute(RequestPredicates.POST("/save")
+                                                .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
+                                        handler::saveHandler)
+                                .andRoute(RequestPredicates.DELETE("/del/{id}"), handler::delHandler)
+                                .andRoute(RequestPredicates.PUT("/update/{id}")
+                                                .and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
+                                        handler::updateHandler)
+                                .andRoute(RequestPredicates.GET("/find/{id}"), handler::findByIdHandler)
+                                .andRoute(RequestPredicates.GET("/age/{below}/{top}"), handler::findByAgeHandler)
+                                .andRoute(RequestPredicates.GET("/sse/age/{below}/{top}"), handler::findByAgeSseHandler)
+                );
     }
 }

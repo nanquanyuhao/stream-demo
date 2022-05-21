@@ -1,2 +1,32 @@
 ### 获取全部对象
 GET http://localhost:8080/student/all
+
+### 添加对象
+POST http://localhost:8080/student/save
+Content-Type: application/json
+
+{
+  "name": "李晓晓",
+  "age": 24
+}
+
+### 根据 ID 删除数据
+DELETE http://localhost:8080/student/del/62885166da7f947db55eba2b
+
+### 更新数据
+PUT http://localhost:8080/student/update/6284d92e7221121462748dac
+Content-Type: application/json
+
+{
+  "name": "修改一下",
+  "age": 23
+}
+
+### 获取某个对象
+GET http://localhost:8080/student/find/6284d92e7221121462748dac
+
+### 按照年龄范围查询
+GET http://localhost:8080/student/age/22/29
+
+### 按照年龄范围查询
+GET http://localhost:8080/student/sse/age/22/29
