@@ -67,6 +67,7 @@ public class StudentHandler {
 
         return repository.findById(id)
                 .flatMap(stu -> repository.deleteById(id)
+                        // build() 是构造器模式最终操作，返回 Mono<ServerResponse> 对象
                         .then(ServerResponse.ok().build()))
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
@@ -82,7 +83,7 @@ public class StudentHandler {
         String id = serverRequest.pathVariable("id");
         Mono<Student> studentMono = serverRequest.bodyToMono(Student.class);
 
-        // 将id封装到了 Mono 的元素中
+        // 将 id 封装到了 Mono 的元素中
         Mono<Student> studentMonoId = studentMono.map(stu -> {
             // 验证Student对象
             ValidatorUtil.validateStudent(stu);
@@ -91,8 +92,10 @@ public class StudentHandler {
         });
 
         return repository.findById(id)
+                // findById() 返回值类型为 Mono<Student>，故 flatMap() 内 Function 入参类型必须为 Student 即入参 stu
                 .flatMap(stu -> {
                     Flux<Student> studentFlux = repository.saveAll(studentMonoId);
+                    // Function 出参数必须为 Mono<>，此处需要包装为 Mono<ServerResponse>，满足最终返回值要求
                     return ServerResponse
                             .ok()
                             .contentType(MediaType.APPLICATION_JSON)
@@ -115,7 +118,8 @@ public class StudentHandler {
                 .flatMap(stu -> ServerResponse
                         .ok()
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(repository.findById(id), Student.class))
+                        // 减少一次查询，进行 Student 对象的包装
+                        .body(Mono.just(stu), Student.class))
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 

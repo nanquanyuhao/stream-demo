@@ -11,15 +11,15 @@ Content-Type: application/json
 }
 
 ### 根据 ID 删除数据
-DELETE http://localhost:8080/student/del/62885166da7f947db55eba2b
+DELETE http://localhost:8080/student/del/6284d9257221121462748da7
 
 ### 更新数据
 PUT http://172.16.3.10:8080/student/update/6284d92e7221121462748dac
 Content-Type: application/json
 
 {
-  "name": "admin",
-  "age": 23
+  "name": "李小二",
+  "age": 44
 }
 
 ### 获取某个对象
