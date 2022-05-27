@@ -1,5 +1,6 @@
 package net.nanquanyuhao.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import net.nanquanyuhao.bean.Student;
 import net.nanquanyuhao.repository.StudentRepository;
 import net.nanquanyuhao.util.ValidatorUtil;
@@ -16,6 +17,7 @@ import javax.validation.Valid;
 /**
  * 控制器类
  */
+@Slf4j
 @RestController
 @RequestMapping("/student")
 public class StudentController {
@@ -30,7 +32,11 @@ public class StudentController {
      */
     @GetMapping("/all")
     public Flux<Student> getAll() {
-        return repository.findAll();
+
+        log.info("start");
+        Flux<Student> flux = repository.findAll();
+        log.info("end");
+        return flux;
     }
 
     /**
@@ -40,7 +46,11 @@ public class StudentController {
      */
     @GetMapping(value = "/sse/all", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Student> getAllSSE() {
-        return repository.findAll();
+
+        log.info("sse start");
+        Flux<Student> flux = repository.findAll();
+        log.info("sse end");
+        return flux;
     }
 
     /**
